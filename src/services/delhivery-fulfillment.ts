@@ -197,7 +197,7 @@ class DelhiveryFulfillmentService extends AbstractFulfillmentService {
             products_desc: items.map(x=>x.variant.sku).filter(x=>x).join(","),
             quantity: items.map(x=>x.quantity).reduce((p,c)=>p+c,0),
           },
-        ]
+        ],
         // shipments: items.map((x) => ({
         //   name: `${order?.shipping_address?.first_name} ${order?.shipping_address?.last_name}`,
         //   add:
