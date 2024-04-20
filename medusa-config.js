@@ -23,10 +23,10 @@ try {
 
 // CORS when consuming Medusa from admin
 const ADMIN_CORS =
-  process.env.ADMIN_CORS || "http://localhost:7000,http://localhost:7001";
+  process.env.ADMIN_CORS || "http://localhost:7001,http://localhost:9000";
 
 // CORS to avoid issues when consuming Medusa from a client
-const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
+const STORE_CORS = process.env.STORE_CORS || "http://localhost:3000";
 
 const DATABASE_URL =
   process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
@@ -77,38 +77,38 @@ const plugins = [
       redirectMode: process.env.PHONEPE_REDIRECT_MODE,
     },
   },
-  {
-    resolve: `medusa-plugin-meilisearch`,
-    options: {
-      // config object passed when creating an instance of the MeiliSearch client
-      config: {
-        host: process.env.MEILISEARCH_HOST,
-        apiKey: process.env.MEILISEARCH_API_KEY,
-      },
-      settings: {
-        products: {
-          // MeiliSearch's setting options to be set on a particular index
-          searchableAttributes: ["title", "description", "variant_sku"],
-          displayedAttributes: [
-            "title",
-            "description",
-            "variant_sku",
-            "thumbnail",
-            "handle",
-          ],
-          transformer: (product) => ({
-            id: product.id,
-            title: product.title,
-            description: product.description,
-            variant_sku: product.variant_sku,
-            thumbnail: product.thumbnail,
-            handle: product.handle,
-            // other attributes...
-          }),
-        },
-      },
-    },
-  },
+  // {
+  //   resolve: `medusa-plugin-meilisearch`,
+  //   options: {
+  //     // config object passed when creating an instance of the MeiliSearch client
+  //     config: {
+  //       host: process.env.MEILISEARCH_HOST,
+  //       apiKey: process.env.MEILISEARCH_API_KEY,
+  //     },
+  //     settings: {
+  //       products: {
+  //         // MeiliSearch's setting options to be set on a particular index
+  //         searchableAttributes: ["title", "description", "variant_sku"],
+  //         displayedAttributes: [
+  //           "title",
+  //           "description",
+  //           "variant_sku",
+  //           "thumbnail",
+  //           "handle",
+  //         ],
+  //         transformer: (product) => ({
+  //           id: product.id,
+  //           title: product.title,
+  //           description: product.description,
+  //           variant_sku: product.variant_sku,
+  //           thumbnail: product.thumbnail,
+  //           handle: product.handle,
+  //           // other attributes...
+  //         }),
+  //       },
+  //     },
+  //   },
+  // },
   {
     resolve: "medusa-plugin-auth",
     /** @type {import('medusa-plugin-auth').AuthOptions} */
