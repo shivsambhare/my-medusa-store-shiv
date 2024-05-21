@@ -54,7 +54,7 @@ function extractFields(data) {
 	const customerFirstName = data?.customer?.first_name || data?.shipping_address?.first_name || "N/A";
 	const customerLastName = data?.customer?.last_name || data?.shipping_address?.last_name || "N/A";
 
-	const invoiceNumber = `inv-${data?.orderIndex?.toString().padStart(5, '0')}`
+	const invoiceNumber = `inv-${(data?.orderIndex +1)?.toString().padStart(5, '0')}`
 	const isCOD = data?.payments?.[0]?.provider_id === 'cod';
 	const paymentStatus = data?.payment_status || '';
 	const orderStatus = (paymentStatus == 'captured' || isCOD) ? 'Confirmed' : 'Pending';
