@@ -42,7 +42,7 @@ const csvHeader = [
 	"Discount Code",
 	"Discount Value",
 	"Total Product Value",
-	"Total Tax Value",
+	"Total Product Tax Value",
 	"Total Invoice Value",
 	"Total Invoice Tax Value",
 	"Place of Supply",
@@ -102,7 +102,7 @@ function extractFields(data) {
 	const totalProductTaxValue = data?.items?.[0]?.tax_total / 100 || '';
 
 	const totalInvoiceValue = data?.total / 100 || '';
-	const totalInvoiceTaxValue = data?.item_tax_total / 100 || '';
+	const totalInvoiceTaxValue = (data?.tax_total / 100) || '';
 
 	const placeOfSupply = 'Bangalore';
 	const stateOfSupply = 'Karnataka';
