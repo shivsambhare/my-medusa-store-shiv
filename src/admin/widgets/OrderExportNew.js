@@ -207,7 +207,7 @@ const OrderExport = () => {
 
 		// generate orders for each items separately
 		const formattedOrdes = [];
-		orders.forEach((order, orderIndex) => {
+		orders?.reverse()?.forEach((order, orderIndex) => {
 			order.items.forEach(item => {
 				const duplicatedOrder = Object.assign({}, order); // Clone order
 				duplicatedOrder.orderIndex = orderIndex;
