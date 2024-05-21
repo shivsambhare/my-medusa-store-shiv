@@ -61,18 +61,18 @@ function extractFields(data) {
 	const paymentMode = isCOD ? 'COD' : 'Prepaid';
 
 	const customerId = data?.customer?.id || '';
-	const customerPhone = data?.customer?.phone || '';
+	const customerPhone = data?.customer?.phone || data?.shipping_address?.phone || '';
 	const billingAddress = `${data?.billing_address?.address_1 || ''} ${" "} ${data?.billing_address?.address_2 || ''}`;
 	const customerEmail = data?.email || data?.customer?.email || "N/A";
-	const billingState = data?.billing_address?.province || '';
+	const billingState = data?.billing_address?.province || data?.shipping_address?.province || '';
 	const billingCountry = data?.billing_address?.country_code || '';
 	const billingCity = data?.billing_address?.city || '';
 
 	const itemSKU = data?.items?.[0]?.variant?.sku || '';
 	const itemDescription = data?.items?.[0]?.title || '';
 	const itemQuantity = data?.items?.[0]?.quantity || '';
-	const itemPriceWithTax = (data?.items?.[0]?.unit_price || 0) / 100 || '';
-	const itemPriceWithoutTax = (data?.items?.[0]?.subtotal || 0) / 100 || '';
+	const itemPriceWithTax = (data?.items?.[0]?.original_total || 0) / 100 || '';
+	const itemPriceWithoutTax = (data?.items?.[0]?.unit_price || 0) / 100 || '';
 
 	const shippingState = data?.shipping_address?.province || '';
 	const isIGSTApplicable = shippingState?.toLowerCase() === 'karnataka';
@@ -90,16 +90,16 @@ function extractFields(data) {
 	const shippingCGSTRate = shippingTaxRate / 2 || 0;
 	const shippingSGSTRate = isIGSTApplicable ? 0 : (shippingTaxRate / 2 || 0);
 	const shippingIGSTRate = isIGSTApplicable ? (shippingTaxRate / 2 || 0) : 0;
-	const shippingCGSTValue = ((itemPriceWithoutTax * shippingCGSTRate) / 100) || '';
-	const shippingSGSTValue = ((itemPriceWithoutTax * shippingSGSTRate) / 100) || '';
-	const shippingIGSTValue = ((itemPriceWithoutTax * shippingIGSTRate) / 100) || '';
+	const shippingCGSTValue = ((shippingCharges * shippingCGSTRate) / 100) || '';
+	const shippingSGSTValue = ((shippingCharges * shippingSGSTRate) / 100) || '';
+	const shippingIGSTValue = ((shippingCharges * shippingIGSTRate) / 100) || '';
 
 	const discountCode = data?.discounts?.[0]?.code || '';
 	const discountRate = data?.discounts?.[0]?.rule?.value ? `${data?.discounts?.[0]?.rule?.value || ''} %` : '';
-	const itemDiscountTotal = data?.item?.[0]?.discount_total / 100 || '';
+	const itemDiscountTotal = data?.items?.[0]?.discount_total / 100 || '';
 
-	const totalProductValue = data?.item?.[0]?.total / 100 || '';
-	const totalProductTaxValue = data?.item?.[0]?.original_tax_total / 100 || '';
+	const totalProductValue = data?.items?.[0]?.total / 100 || '';
+	const totalProductTaxValue = data?.items?.[0]?.tax_total / 100 || '';
 
 	const totalInvoiceValue = data?.total / 100 || '';
 	const totalInvoiceTaxValue = data?.item_tax_total / 100 || '';
@@ -107,7 +107,7 @@ function extractFields(data) {
 	const placeOfSupply = 'Bangalore';
 	const stateOfSupply = 'Karnataka';
 
-	const HSNCode = data?.item?.[0]?.variant?.hs_code || '';
+	const HSNCode = data?.items?.[0]?.variant?.hs_code || '';
 
 	const newdata = [
 		data?.display_id || "N/A",
